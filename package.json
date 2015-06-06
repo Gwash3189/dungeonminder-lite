@@ -38,8 +38,12 @@
     "webpack": "^1.9.9"
   },
   "dependencies": {
+    "bootstrap": "^3.3.4",
+    "immutable": "^3.7.3",
+    "lodash": "^3.9.3",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
+    "react-router-proxy-loader": "^0.3.0",
     "reflux": "^0.2.7"
   }
 }

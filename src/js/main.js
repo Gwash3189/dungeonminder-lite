@@ -1,11 +1,11 @@
 require("styles/styles.js");
-var {Route, run, DefaultRoute } = require("react-router");
+var { Route, run, DefaultRoute } = require("react-router");
 var React = require("react");
-var document = require("document");
 
 
 var routes = (
-    <Route name="home" path="/" handler={HomeContainer}>
+    <Route name="home" path="/">
+    	<DefaultRoute handler={require('react-router-proxy!./components/home/homeContainer')} />
     </Route>
 );
 
