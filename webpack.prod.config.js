@@ -15,10 +15,13 @@ module.exports = {
         loaders: [ // required for react jsx
             {
                 test: /\.js$/,
-                loader: "jsx-loader?harmony"
+                loader: "jsx-loader?harmony",
+                exclude: /__tests__/
+
             }, {
                 test: /\.jsx$/,
-                loader: "jsx-loader?harmony"
+                loader: "jsx-loader?harmony",
+                exclude: /__tests__/
             }, {
                 test: /\.css$/,
                 loader: "style-loader!css-loader"

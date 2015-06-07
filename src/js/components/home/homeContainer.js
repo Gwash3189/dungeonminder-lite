@@ -1,9 +1,16 @@
-var React = require("React");
+var React = require("react");
+var { RouteHandler } = require("react-router");
 
-module.exports = React.createClass({
+var HomeContainer = React.createClass({
 	render: function() {
 		return (
-			<div>Hello World</div>
+			<div className="container-fluid" style={{paddingTop: "60px"}}>
+				<div className="row">
+					<RouteHandler/>
+				</div>
+			</div>
 		);
 	}
-})
+});
+
+module.exports = HomeContainer;

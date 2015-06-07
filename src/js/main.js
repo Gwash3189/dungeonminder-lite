@@ -1,15 +1,14 @@
 require("styles/styles.js");
-var { Route, run, DefaultRoute } = require("react-router");
-var React = require("react");
+var React = require('react');
+var { Route, DefaultRoute, run } = require('react-router');
 
 
 var routes = (
-    <Route name="home" path="/">
-    	<DefaultRoute handler={require('react-router-proxy!./components/home/homeContainer')} />
+    <Route name="home" path="/" handler={require('react-router-proxy!./components/home/homeContainer')}>
+    	<DefaultRoute handler={require('react-router-proxy!./components/encounters/encountersListContainer')} />
     </Route>
 );
 
 run(routes, function (Handler, state) {
-    var params = state.params;
-    React.render(<Handler params={params}/>, document.body)
+    React.render(<Handler/>, document.getElementById("app"))
 })
