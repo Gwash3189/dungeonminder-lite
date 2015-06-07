@@ -1,8 +1,8 @@
 var { expect } = require("chai");
 var sinon = require("sinon");
 
-describe("Passing tests", function () {
-    it("Should pass", function() {
-        expect(true).to.be.true;
+describe("App", function () {
+    it("Should Load", function() {
+        expect(require("main.js")).to.be.ok
     })
 })
