@@ -12,6 +12,7 @@ var store = Reflux.createStore({
 		this.EncounterList = new EncounterList();
 	},
 	onAddEncounter(e) {
+		debugger;
 		this.EncounterList.add(e);
 		this.sync(this.EncounterList.encounters);
 	},

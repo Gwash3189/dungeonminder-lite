@@ -8,7 +8,7 @@ function Encounter(name, players, monsters) {
 };
 
 Encounter.prototype.add = {
-	player: function(p){
+	players: function(p){
 		this.players.push(p);
 	},
 	monsters: function(e){
@@ -16,13 +16,27 @@ Encounter.prototype.add = {
 	}
 };
 
-Encounter.prototype.remove = {
-	player: function(p){
-		this.players = _.without(this.players, [p]);
-	},
-	monsters: function(e){
-		this.monsters = _.without(this.monsters, [e]);
-	}
+Encounter.prototype.remove = {};
+Encounter.prototype.remove.players = function(p, self){
+	this.players = _.without(self.players, [p]);
+};
+Encounter.prototype.remove.monsters = function(e, self){
+	this.monsters = _.without(self.monsters, [e]);
+};
+
+Encounter.prototype.new = function({name, players, monsters}){
+	let m = monsters || this.monsters;
+	let p = players || this.players;
+	let n = name || this.name;
+	return new Encounter(n,p,m);
+}
+
+Encounter.prototype.clone = {};
+Encounter.prototype.clone.players = function(newPlayers, self){
+	return _.cloneDeep(self.players.concat(newPlayers));
+};
+Encounter.prototype.clone.monsters = function(newMonsters, self){
+	return _.cloneDeep(self.monsters.concat(newMonsters));
 };
 
 Encounter.prototype.sort = function() {
