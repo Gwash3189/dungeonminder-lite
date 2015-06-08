@@ -23,7 +23,8 @@ coverage
 build/Release
 
 #build directory
-build
+build/
+!build/index.html
 
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
