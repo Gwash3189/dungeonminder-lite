@@ -21,7 +21,6 @@
     "chai": "^2.2.0",
     "css-loader": "^0.14.2",
     "file": "^0.2.2",
-    "jsx-loader": "^0.13.1",
     "karma": "^0.12.31",
     "karma-chrome-launcher": "^0.1.8",
     "karma-cli": "0.0.4",
