@@ -12,7 +12,6 @@ var store = Reflux.createStore({
 		this.EncounterList = new EncounterList();
 	},
 	onAddEncounter(e) {
-		debugger;
 		let exists = this.EncounterList.encounters.some(x => x.id === e.id);
 		if(exists){
 			let index = this.EncounterList.getIndexOfEncounter(e); 

@@ -1,4 +1,5 @@
 var _ = require("lodash");
+var validate = require("validate.js");
 
 function Encounter(name, players, monsters, id=_.uniqueId()) {
 	this.name = name || "";
@@ -6,6 +7,34 @@ function Encounter(name, players, monsters, id=_.uniqueId()) {
 	this.monsters = monsters || [];
 	this.sorted = [];
 	this.id = id;
+};
+
+Encounter.prototype.validate = function() {
+	const constraints = {
+		name: {
+			presence: true,
+			length: {
+				minimum: 1
+			}
+		},
+		players: {
+			length: {
+				minimum: 1,
+				message: "One player is required"
+			}
+		},
+		monsters: {
+			length: {
+				minimum: 1,
+				message: "One monster is required"
+			}		
+		}
+	};
+	debugger;
+	
+	const encounterMessages = validate(this, constraints, {format: "flat"});
+	const playerMessages = _.flatten(this.players.map(x => x.validate()));
+	const monsterMessages = _.flatten(this.monsters.map(x => x.validate()));
 };
 
 Encounter.prototype.add = {

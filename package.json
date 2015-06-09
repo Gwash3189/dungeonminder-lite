@@ -47,6 +47,7 @@
     "react": "^0.13.3",
     "react-router": "^0.13.3",
     "react-router-proxy-loader": "^0.3.0",
-    "reflux": "^0.2.7"
+    "reflux": "^0.2.7",
+    "validate.js": "^0.7.1"
   }
 }

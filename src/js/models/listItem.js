@@ -1,4 +1,6 @@
 let _ = require("lodash")
+let validate = require("validate.js");
+
 function ListItem(name, hp) {
 	this.name = name;
 	this.hp = hp;
@@ -13,6 +15,25 @@ ListItem.prototype.new = function({name, hp}, f){
 	let h = hp || this.hp;
 	let n = name || this.name;
 	return new f(n, hp);
+}
+
+ListItem.prototype.validate = function(){
+	const constraints = {
+		name: {
+			presence: true,
+			length: {
+				minimum: 1,
+				message: "Provide a player name"
+			}
+		},
+		hp: {
+			presence: true, 
+			numericality: {
+				message: "HP can only contain numbers"
+			}
+		}
+	};
+	return validate(this, constraints);
 }
 
 module.exports = ListItem;

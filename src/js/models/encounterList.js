@@ -10,7 +10,7 @@ EncounterList.prototype.add = function(encounter) {
 };
 
 EncounterList.prototype.remove = function(encounter) {
-	this.encounters = this.encounters.slice(this.getIndexOfEncounter(encounter));
+	this.encounters = this.encounters.filter(x => x.id !== encounter.id);
 };
 
 EncounterList.prototype.getIndexOfEncounter = function(encouter){

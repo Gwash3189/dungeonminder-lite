@@ -20,7 +20,7 @@ var AddEncounterModal = React.createClass({
 	mixins: [Reflux.ListenerMixin],
 	getInitialState() {
 		return {
-			encounter: new Encounter("", [], [])
+			encounter: new Encounter()
 		}
 	},
 	componentDidMount() {
@@ -97,7 +97,6 @@ var AddEncounterModal = React.createClass({
 		)
 	},
 	close(){
-		debugger;
 		$modal.modal("hide");
 		this.setState({
 			encounter: new Encounter()
@@ -159,7 +158,6 @@ var AddEncounterModal = React.createClass({
 		});
 	},
 	handleAddMonster(e){
-		debugger;
 		preventModalClose(e);
 		let enc = this.state.encounter.new({
 			monsters: this.state.encounter.clone.monsters([new Monster()], this.state.encounter)
@@ -178,6 +176,7 @@ var AddEncounterModal = React.createClass({
 		this.close()
 	},
 	handleSave(){
+		this.state.encounter.validate();
 		EncounterActions.addEncounter(this.state.encounter);
 		this.close();
 	},
