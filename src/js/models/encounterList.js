@@ -10,7 +10,19 @@ EncounterList.prototype.add = function(encounter) {
 };
 
 EncounterList.prototype.remove = function(encounter) {
-	this.encounters = _.without(this.encounters, [encounter]);
+	this.encounters = this.encounters.slice(this.getIndexOfEncounter(encounter));
 };
+
+EncounterList.prototype.getIndexOfEncounter = function(encouter){
+	let index = -1;
+	this.encounters.some((x,i) => {
+		if(x.id === encouter.id){
+			index = i;
+			return true;
+		}
+		return false;
+	});
+	return index;
+}
 
 module.exports = EncounterList;

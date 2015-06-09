@@ -1,10 +1,11 @@
 var _ = require("lodash");
 
-function Encounter(name, players, monsters) {
+function Encounter(name, players, monsters, id=_.uniqueId()) {
 	this.name = name || "";
 	this.players = players || [];
 	this.monsters = monsters || [];
 	this.sorted = [];
+	this.id = id;
 };
 
 Encounter.prototype.add = {
@@ -28,7 +29,8 @@ Encounter.prototype.new = function({name, players, monsters}){
 	let m = monsters || this.monsters;
 	let p = players || this.players;
 	let n = name || this.name;
-	return new Encounter(n,p,m);
+	let id = this.id; 
+	return new Encounter(n,p,m,id);
 }
 
 Encounter.prototype.clone = {};

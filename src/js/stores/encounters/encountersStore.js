@@ -13,10 +13,18 @@ var store = Reflux.createStore({
 	},
 	onAddEncounter(e) {
 		debugger;
-		this.EncounterList.add(e);
+		let exists = this.EncounterList.encounters.some(x => x.id === e.id);
+		if(exists){
+			let index = this.EncounterList.getIndexOfEncounter(e); 
+			this.EncounterList.encounters[index] = e;
+			this.sync(this.EncounterList.encounters);
+		} else {
+			this.EncounterList.add(e);
+		}
 		this.sync(this.EncounterList.encounters);
 	},
 	onRemoveEncounter(e){
+		debugger;
 		this.EncounterList.remove(e);
 		this.sync(this.EncounterList.encounters);
 	},

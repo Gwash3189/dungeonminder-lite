@@ -1,6 +1,8 @@
 var React = require("react");
-var EncountersStore = require("stores/encounters/encountersStore");
 var Reflux = require("reflux");
+var EncountersStore = require("stores/encounters/encountersStore");
+var AddEncounterModalActions = require("stores/modals/add/encounterModalStore").actions;
+
 
 var EncountersList = React.createClass({
 	mixins: [Reflux.ListenerMixin],
@@ -15,6 +17,16 @@ var EncountersList = React.createClass({
 	componentDidMount(){
 		this.listenTo(EncountersStore.store, this.updateEncounters);
 	},
+	editEncounter(model) {
+		return function() {
+			AddEncounterModalActions.openModal(model)
+		}
+	},
+	removeEncounter(model) {
+		return function() {
+			EncountersStore.actions.removeEncounter(model);
+		}
+	},
 	render: function() {
 		const list = this.state.encounters.map((x,i) => {
 			return (
@@ -24,11 +36,18 @@ var EncountersList = React.createClass({
 		        			{x.name}
 		    			</h4>
 	        			<div style={{width: "100%"}}>
-	        				<div style={{width: "80%" , display: "inline-block"}}>
+	        				<div style={{width: "70%" , display: "inline-block"}}>
 	        					<p>{x.monsters.length} Monsters. {x.players.length} Players</p>
 	        				</div>
-	        				<div style={{width: "20%", display: "inline-block"}}>
-	        					<a href="#"><i className="fa fa-edit"></i></a>
+	        				<div style={{width: "15%", display: "inline-block"}}>
+	        					<button className="btn btn-info btn-sm" onClick={this.editEncounter(x)}>
+	        						<i className="fa fa-edit"></i>
+        						</button>
+	        				</div>
+	        				<div style={{width: "15%", display: "inline-block"}}>
+	        					<button className="btn btn-danger btn-sm" onClick={this.removeEncounter(x)}>
+        							<i className="fa fa-remove"></i>
+    							</button>
 	        				</div>
 		        		</div>
 		      		</div>
