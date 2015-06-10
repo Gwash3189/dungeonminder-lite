@@ -1,8 +1,9 @@
 var encounter = require("models/encounter");
-var _ = require("lodash");
+var Immutable = require("immutable");
 
 function EncounterList(encounters) {
 	this.encounters = [];
+	Immutable.Map(this);
 }
 
 EncounterList.prototype.add = function(encounter) {

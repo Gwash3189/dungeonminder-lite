@@ -1,8 +1,8 @@
 var ListItem = require("models/listItem");
-var _ = require("lodash");
+var Immutable = require("immutable");
 
 function Monster(name, hp){
-	ListItem.call(this, name, hp);
+	return Immutable.Map(ListItem.call(this, name, hp));
 }
 Monster.prototype = _.create(ListItem.prototype, {
 	constructor: Monster

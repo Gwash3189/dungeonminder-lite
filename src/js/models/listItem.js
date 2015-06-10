@@ -1,7 +1,7 @@
 let _ = require("lodash")
 let validate = require("validate.js");
 
-function ListItem(name, hp) {
+function ListItem({name, hp}={}) {
 	this.name = name;
 	this.hp = hp;
 	this.initiative = 0

@@ -37,7 +37,7 @@ var EncountersList = React.createClass({
 		    			</h4>
 	        			<div style={{width: "100%"}}>
 	        				<div style={{width: "70%" , display: "inline-block"}}>
-	        					<p>{x.monsters.length} Monsters. {x.players.length} Players</p>
+	        					<p>{x.get("monsters").length} Monsters. {x.get("players").length} Players</p>
 	        				</div>
 	        				<div style={{width: "15%", display: "inline-block"}}>
 	        					<button className="btn btn-info btn-sm" onClick={this.editEncounter(x)}>

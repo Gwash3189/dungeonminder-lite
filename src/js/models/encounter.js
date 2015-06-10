@@ -1,12 +1,14 @@
 var _ = require("lodash");
+var Immutable = require("immutable");
 var validate = require("validate.js");
 
-function Encounter(name, players, monsters, id=_.uniqueId()) {
+function Encounter({name="", players=[], monsters=[], id=_.uniqueId()}={}) {
 	this.name = name || "";
 	this.players = players || [];
 	this.monsters = monsters || [];
 	this.sorted = [];
 	this.id = id;
+	return Immutable.Map(this);
 };
 
 Encounter.prototype.validate = function() {
@@ -54,12 +56,8 @@ Encounter.prototype.remove.monsters = function(e, self){
 	this.monsters = _.without(self.monsters, [e]);
 };
 
-Encounter.prototype.new = function({name, players, monsters}){
-	let m = monsters || this.monsters;
-	let p = players || this.players;
-	let n = name || this.name;
-	let id = this.id; 
-	return new Encounter(n,p,m,id);
+Encounter.prototype.new = function(){
+	return Encounter.apply(this, arguments);
 }
 
 Encounter.prototype.clone = {};
