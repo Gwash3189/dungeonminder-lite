@@ -1,6 +1,7 @@
-var _ = require("lodash");
-var Immutable = require("immutable");
-var validate = require("validate.js");
+let _ = require("lodash");
+let Immutable = require("immutable");
+let validate = require("validate.js");
+let ListItem = require("models/listItem");
 
 function Encounter({name="", players=[], monsters=[], id=_.uniqueId()}={}) {
 	this.name = name || "";
@@ -11,32 +12,40 @@ function Encounter({name="", players=[], monsters=[], id=_.uniqueId()}={}) {
 	return Immutable.Map(this);
 };
 
-Encounter.prototype.validate = function() {
+
+Encounter.prototype.validate = function(obj) {
 	const constraints = {
 		name: {
 			presence: true,
 			length: {
-				minimum: 1
+				minimum: 1,
+				message: "Encounter name can't be blank"
 			}
 		},
 		players: {
+			presence: true,
 			length: {
 				minimum: 1,
-				message: "One player is required"
+				message: makeListMessage("player")
 			}
 		},
 		monsters: {
+			presence: true,
 			length: {
 				minimum: 1,
-				message: "One monster is required"
+				message: makeListMessage("monster")
 			}		
 		}
 	};
 	debugger;
-	
-	const encounterMessages = validate(this, constraints, {format: "flat"});
-	const playerMessages = _.flatten(this.players.map(x => x.validate()));
-	const monsterMessages = _.flatten(this.monsters.map(x => x.validate()));
+	const encounterMessages = validate((obj || this), constraints, {format: "flat"}) || [];
+	const playerMessages = _.flatten((obj || this).players.map(x => x.toJS()).map(x => ListItem.prototype.validate(x))) || [];
+	const monsterMessages = _.flatten((obj || this).monsters.map(x => x.toJS()).map(x => ListItem.prototype.validate(x))) || [];
+	return [].concat(encounterMessages, playerMessages, monsterMessages);
+
+	function makeListMessage(listName){
+		return `One ${listName} is required.`
+	}
 };
 
 Encounter.prototype.add = {

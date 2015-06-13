@@ -17,7 +17,8 @@ ListItem.prototype.new = function({name, hp}, f){
 	return new f(n, hp);
 }
 
-ListItem.prototype.validate = function(){
+ListItem.prototype.validate = function(obj){
+	debugger;
 	const constraints = {
 		name: {
 			presence: true,
@@ -33,7 +34,7 @@ ListItem.prototype.validate = function(){
 			}
 		}
 	};
-	return validate(this, constraints);
+	return validate(obj || this, constraints);
 }
 
 module.exports = ListItem;

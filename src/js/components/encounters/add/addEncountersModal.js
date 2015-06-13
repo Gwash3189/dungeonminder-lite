@@ -3,6 +3,7 @@ var EncounterActions = require("stores/encounters/encountersStore").actions;
 var AddEncounterModalFormHeading = require("components/encounters/add/addEncounterModalFormHeading");
 var AddEncounterModalStore = require("stores/modals/add/encounterModalStore").store;
 var Input = require("components/forms/input");
+var ErrorMessage = require("components/forms/ErrorMessage");
 var Encounter = require("models/encounter");
 var Monster = require("models/monster");
 var Player = require("models/player");
@@ -20,7 +21,8 @@ var AddEncounterModal = React.createClass({
 	mixins: [Reflux.ListenerMixin],
 	getInitialState() {
 		return {
-			encounter: new Encounter()
+			encounter: new Encounter(),
+			validationMessages: []
 		}
 	},
 	componentDidMount() {
@@ -73,8 +75,23 @@ var AddEncounterModal = React.createClass({
 		});
 		return (
 			<form onSubmit={this.handleSubmit}>
+				<ul className="list-unstyled">
+					{
+						this.state.validationMessages.map((x,i) => {
+							return (
+								<li key={i}>
+									<ErrorMessage>
+										<p>
+											{x}
+										</p>
+									</ErrorMessage>
+								</li>
+							);
+						})
+					}
+				</ul>
 				<h4>Encounter</h4>
-				<Input htmlFor="Encounter Name" value={this.state.encounter.get("name")} onChange={this.handleEncounterNameChange}/>
+				<Input ref={"encounterInput"} htmlFor="Encounter Name" value={this.state.encounter.get("name")} onChange={this.handleEncounterNameChange}/>
 				<hr />
 				<div>
 					<AddEncounterModalFormHeading heading="Players" onClick={this.handleAddPlayer}/>
@@ -99,7 +116,8 @@ var AddEncounterModal = React.createClass({
 	close(){
 		$modal.modal("hide");
 		this.setState({
-			encounter: new Encounter()
+			encounter: new Encounter(),
+			validationMessages: []
 		});
 	},
 	handleMonsterChange(index, prop){
@@ -172,8 +190,16 @@ var AddEncounterModal = React.createClass({
 		this.close()
 	},
 	handleSave(){
-		EncounterActions.addEncounter(this.state.encounter);
-		this.close();
+		const validationMessages = Encounter.prototype.validate(this.state.encounter.toJS());
+		if(validationMessages.length){
+			this.setState({
+				validationMessages
+			});
+		} else {
+			EncounterActions.addEncounter(this.state.encounter);
+			this.close();	
+		}
+		
 	},
 	render() {
 		return (
