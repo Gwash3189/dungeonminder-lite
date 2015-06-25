@@ -13,7 +13,7 @@ ListItem.prototype.clone = function() {
 
 ListItem.prototype.new = function({name, hp}, f){
 	let h = hp || this.hp;
-	let n = name || this.name;
+	let n = name;
 	return new f(n, hp);
 }
 
