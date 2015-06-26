@@ -11,6 +11,8 @@ var React = require("react");
 var $ = require("jquery");
 var _  = require("lodash");
 var Immutable = require('immutable');
+let PlayerCompoenent = require("components/encounters/add/player");
+let MonsterCompoenent = require("components/encounters/add/monster");
 
 let $modal;
 let preventModalClose = function(e){
@@ -28,6 +30,7 @@ var AddEncounterModal = React.createClass({
 		this.listenTo(AddEncounterModalStore, this.handleModalStore)
 	},
 	handleModalStore(dto) {
+
 		if(dto.model){
 			this.setState({
 				encounter: dto.model
@@ -54,22 +57,20 @@ var AddEncounterModal = React.createClass({
 		//todo
 		// turn into child component
 		let players = this.state.encounter.get("players").map((x, i) => {
-			return (
-				<li key={i}>
-					<h5>{x.name || "Player Name"}</h5>
-					<Input htmlFor="Player Name" value={x.name} onChange={this.handlePlayerNameChange(i)}/>
-					<Input htmlFor="Hit Points" value={x.hp} onChange={this.handlePlayerHitPointChange(i)}/>
-				</li>
-			);
+			return <PlayerCompoenent
+				key={i}
+				player={x}
+				onPlayerNameChange={this.handlePlayerNameChange(i)}
+				onPlayerHitPointChange={this.handlePlayerHitPointChange(i)}
+			/>
 		});
 		let monsters = this.state.encounter.get("monsters").map((x, i) => {
-			return (
-				<li key={i}>
-					<h5>{x.name || "Monster Name"}</h5>
-					<Input htmlFor="Monster Name" value={x.name} onChange={this.handleMonsterNameChange(i)}/>
-					<Input htmlFor="Hit Points" value={x.hp} onChange={this.handleMonsterHitPointChange(i)}/>
-				</li>
-			);
+			return <MonsterCompoenent
+				key={i}
+				monster={x}
+				onMonsterNameChange={this.handleMonsterNameChange(i)}
+				onMonsterHitPointChange={this.handleMonsterHitPointChange(i)}
+			/>
 		});
 		return (
 			<form onSubmit={this.handleSubmit}>
@@ -105,12 +106,9 @@ var AddEncounterModal = React.createClass({
 	handleMonsterChange(index, prop){
 		return (e) => {
 			let value = $(e.target).val();
-			let monsters = this.state.encounter.get("monsters")
-			let m = monsters[index];
-			m[prop] = value;
-
-			m = Monster.prototype.new(m, Monster);
-			monsters[index] = m;
+			let monsters = this.state.encounter
+				.get("monsters")
+				.update(index, m => m.set(prop, value))
 
 			this.setState({
 				encounter: this.state.encounter.set("monsters", monsters)
@@ -126,13 +124,9 @@ var AddEncounterModal = React.createClass({
 	handlePlayerChange(index, prop){
 		return (e) => {
 			let value = $(e.target).val();
-			let players = this.state.encounter.get("players");
-			let p = players[index];
-			p[prop] = value;
-
-			p = Player.prototype.new(p, Player);
-			players[index] = p;
-
+			let players = this.state.encounter
+				.get("players")
+				.update(index, p => p.set(prop, value))
 			this.setState({
 				encounter: this.state.encounter.set("players", players)
 			});
@@ -146,8 +140,7 @@ var AddEncounterModal = React.createClass({
 	},
 	handleAddPlayer(e){
 		preventModalClose(e);
-		let newPlayers = this.state.encounter.get("players");
-		newPlayers.push(new Player());
+		let newPlayers = this.state.encounter.get("players").push(new Player());
 		let enc = this.state.encounter.set("players", newPlayers);
 		this.setState({
 			encounter: enc
@@ -155,8 +148,7 @@ var AddEncounterModal = React.createClass({
 	},
 	handleAddMonster(e){
 		preventModalClose(e);
-		let newMonsters = this.state.encounter.get("monsters");
-		newMonsters.push(new Monster());
+		let newMonsters = this.state.encounter.get("monsters").push(new Monster());
 		let enc = this.state.encounter.set("monsters", newMonsters);
 		this.setState({
 			encounter: enc
@@ -179,7 +171,7 @@ var AddEncounterModal = React.createClass({
 		return (
 			<BootstrapModal ref="modal" header={this.header()} body={this.body()} footer={this.footer()}/>
 		);
-		
+
 	}
 });
 

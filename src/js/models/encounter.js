@@ -3,12 +3,12 @@ var Immutable = require("immutable");
 var validate = require("validate.js");
 
 function Encounter({name="", players=[], monsters=[], id=_.uniqueId()}={}) {
-	this.name = name || "";
-	this.players = players || [];
-	this.monsters = monsters || [];
-	this.sorted = [];
-	this.id = id;
-	return Immutable.Map(this);
+	return Immutable.Map({
+		name,
+		players: Immutable.List(players),
+		monsters: Immutable.List(monsters),
+		id
+	});
 };
 
 Encounter.prototype.validate = function() {
@@ -32,7 +32,7 @@ Encounter.prototype.validate = function() {
 			}		
 		}
 	};
-	debugger;
+	
 	
 	const encounterMessages = validate(this, constraints, {format: "flat"});
 	const playerMessages = _.flatten(this.players.map(x => x.validate()));

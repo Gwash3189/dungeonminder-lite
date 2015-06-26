@@ -1,20 +1,12 @@
 let _ = require("lodash")
 let validate = require("validate.js");
+let Immutable = require("immutable")
 
 function ListItem({name, hp}={}) {
-	this.name = name;
-	this.hp = hp;
-	this.initiative = 0
-}
-
-ListItem.prototype.clone = function() {
-	return _.deepClose(this);
-}
-
-ListItem.prototype.new = function({name, hp}, f){
-	let h = hp || this.hp;
-	let n = name;
-	return new f(n, hp);
+	return Immutable.Map({
+		name,
+		hp
+	})
 }
 
 ListItem.prototype.validate = function(){

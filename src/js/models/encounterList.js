@@ -1,29 +1,10 @@
-var encounter = require("models/encounter");
+var Encounter = require("models/Encounter");
 var Immutable = require("immutable");
 
 function EncounterList(encounters) {
-	this.encounters = [];
-	Immutable.Map(this);
-}
-
-EncounterList.prototype.add = function(encounter) {
-	this.encounters.push(encounter);
-};
-
-EncounterList.prototype.remove = function(encounter) {
-	this.encounters = this.encounters.filter(x => x.id !== encounter.id);
-};
-
-EncounterList.prototype.getIndexOfEncounter = function(encouter){
-	let index = -1;
-	this.encounters.some((x,i) => {
-		if(x.id === encouter.id){
-			index = i;
-			return true;
-		}
-		return false;
+	return Immutable.Map({
+		encounters: Immutable.List(encounters)
 	});
-	return index;
 }
 
 module.exports = EncounterList;
