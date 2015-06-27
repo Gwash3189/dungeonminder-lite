@@ -2,10 +2,12 @@ let _ = require("lodash")
 let validate = require("validate.js");
 let Immutable = require("immutable")
 
-function ListItem({name, hp}={}) {
+function ListItem({name, hp, initiative=0, id=_.uniqueId()}={}) {
 	return Immutable.Map({
 		name,
-		hp
+		hp,
+		initiative,
+		id
 	})
 }
 
@@ -19,7 +21,7 @@ ListItem.prototype.validate = function(){
 			}
 		},
 		hp: {
-			presence: true, 
+			presence: true,
 			numericality: {
 				message: "HP can only contain numbers"
 			}

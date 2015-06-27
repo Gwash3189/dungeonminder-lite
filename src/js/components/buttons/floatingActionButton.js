@@ -22,7 +22,8 @@ var PlayersList = React.createClass({
 			    "textAlign": "center",
 			    "padding": "6px 0",
 			    "fontSize": "12px",
-			    "borderRadius": "100%"
+			    "borderRadius": "100%",
+                "transition": "background-color 0.5s ease"
 			};
 			style = _.extend(style, this.props.style);
             return (
