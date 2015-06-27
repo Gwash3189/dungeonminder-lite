@@ -38,6 +38,9 @@ module.exports = React.createClass({
 			started : !this.state.started
 		});
 	},
+	goToRoot() {
+		this.transitionTo("/")
+	},
 	render() {
 		let button;
 		if(!this.state.started){
@@ -57,7 +60,7 @@ module.exports = React.createClass({
 					{
 						button
 					}
-					<FloatingActionButton className="btn-primary" style={{bottom: "110px"}} onClick={this.goback}>
+					<FloatingActionButton className="btn-primary" style={{bottom: "110px"}} onClick={this.goToRoot}>
 						<i className="fa fa-arrow-left fa-2x"></i>
 					</FloatingActionButton>
 			</div>
