@@ -1,6 +1,6 @@
 # Dungeonminder Lite
 
-A Encounter manager for D&D 5E
+An Encounter manager for D&D 5E
 
 # Notes
 
